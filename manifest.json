@@ -7,7 +7,7 @@
   "options_page": "options.html",
 
   "permissions": [
-    "http://*/*", "https://*/*"
+    "https://www.facebook.com/messages/*", "http://www.facebook.com/messages/*"
   ],
   
   "browser_action": {
