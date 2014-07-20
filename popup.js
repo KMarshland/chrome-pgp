@@ -133,7 +133,7 @@ function encryptPending(theirPKey) {
         
       });
     } else {//you need to encrypt it
-      var enc = encryptMessage(message);
+      var enc = encryptMessage(message, theirPKey);
       injectScript(loadDependencies() + 'setMessageText(\'' + enc + '\');true;', function(res){
         
       });

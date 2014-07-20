@@ -7,7 +7,7 @@
   "options_page": "options.html",
 
   "permissions": [
-    "tabs", "http://*/*", "https://*/*", "storage"
+    "http://*/*", "https://*/*"
   ],
   
   "browser_action": {
