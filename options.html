@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Options</title>
+	
+    <script type="text/javascript" src="./js/rsa.js"></script>	
+    <script type="text/javascript" src="./js/base64.js"></script>
+    <script type="text/javascript" src="./js/hex.js"></script>
+    <script type="text/javascript" src="./js/keygen.js"></script>
+
+    <script type="text/javascript" src="./js/main.js"></script>
+</head>
+
+<body>
+
+<button id="generate" onclick="">Generate new key</button>
+<div id = "generateDiv" style="display: none;">
+    Are you sure? 
+    <button id="generateNo" onclick="hideGenerateDiv();">No! That's too dangerous. </button>
+    <button id="generateYes" onclick="">Yes, I understand the risks</button>
+</div>
+
+<div>
+    Your public key: <span id="public-key">
+        
+    </span>
+</div>
+
+<div style="padding: 20px;">
+    Add someone else's public key
+    <input type="text" id="newname">
+    <input type="text" id="newpublickey">
+</div>
+
+Known keys:
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Public key</th>
+        </tr>
+    </thead>
+    
+    <tbody id="otherKeysBody">
+        
+    </tbody>
+</table>
+
+<br>
+    
+<div id="status"></div>
+
+<button id="save">Save</button>
+
+</body>
+
+<script src="options.js"></script>
+
+</html>

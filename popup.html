@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+
+      img {
+        margin: 5px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+    </style>
+    
+    <script type="text/javascript" src="./js/rsa.js"></script>	
+    <script type="text/javascript" src="./js/base64.js"></script>
+    <script type="text/javascript" src="./js/hex.js"></script>
+    <script type="text/javascript" src="./js/keygen.js"></script>
+
+    <script type="text/javascript" src="./js/main.js"></script>
+    
+    <script src="popup.js">
+    </script>
+  </head>
+  
+  <body>
+    
+    <div>
+      <button id="encryptForMe" class="encryptButton">
+        Encrypt for me
+      </button>
+      
+      <div id="encryptForOthersWrapper">
+        
+      </div>
+    </div>
+    
+  </body>
+</html>
+
