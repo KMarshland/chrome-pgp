@@ -12,20 +12,29 @@
 
 <body>
 
+<h1>Options</h1>
+
+<h2>You</h2>
+<div>
+    Your <b>public</b> key: <i><span id="public-key">
+        
+    </span></i>
+</div>
 <button id="generate" onclick="">Generate new key</button>
 <div id = "generateDiv" style="display: none;">
     Are you sure? 
     <button id="generateNo" onclick="hideGenerateDiv();">No! That's too dangerous. </button>
     <button id="generateYes" onclick="">Yes, I understand the risks</button>
 </div>
-
-<div>
-    Your public key: <span id="public-key">
-        
-    </span>
+<br>
+<button id="exportKey" onclick="">Export private key</button>
+<button id="importKey" onclick="">Import private key</button>
+<div id="private-key" style="word-wrap: break-word;">
+    
 </div>
 
-<div style="padding: 20px;">
+<h2>Other people</h2>
+<div style="">
     Add someone else's public key
     <input type="text" id="newname">
     <input type="text" id="newpublickey">
