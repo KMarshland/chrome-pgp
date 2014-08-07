@@ -236,7 +236,11 @@ function getPreviousMessages() {
 function setPreviousMessages(txts) {
   var els = document.getElementsByClassName('_38');
   for (var i = 0; i < els.length; i++){
-    els[i].children[0].innerHTML = txts[i];
+    try {
+      els[i].children[0].innerHTML = txts[i];
+    } catch (e){
+      
+    }
   }
 }
 
