@@ -37,6 +37,15 @@ function buildEncryptButtons() {
   }
 }
 
+function aesStringify(en){
+  return JSON.stringify({str: CryptoJS.AES.encrypt('', '').formatter.stringify(en)});
+}
+
+function aesParse(str){
+  str = str.str;
+  return CryptoJS.AES.encrypt('', '').formatter.parse(str);
+}
+
 function loadClipboard(callback, resultAsArgument, args) {
   chrome.storage.local.get('Clipboard', function(info) {
     if (info.Clipboard != null) {
@@ -80,12 +89,15 @@ function injectScript(cod, callback) {
 }
 
 function encryptMessage(message, theirPKey) {
-  theirPKey = theirPKey || localStorage['pkey'];//TODO: actually make it their public key
+  theirPKey = theirPKey || localStorage['pkey'];
   
+  var rKey = randomString();
+  var rEnc = CryptoJS.AES.encrypt(message, rKey);
   //save the encryped version
   var enc = '[' +
-    safeEncrypt(message) + ',' +
-    safeEncrypt(message, theirPKey) + '' +
+    safeEncrypt(rKey) + ',' +
+    safeEncrypt(rKey, theirPKey) + ',' +
+    aesStringify(rEnc) + '' +
   ']';
   
   return enc;
@@ -98,22 +110,38 @@ function decryptMessage(message) {
   var theirsP = parsed[0];
   var mineP = parsed[1];
   
+  var rMessage = (parsed[2]);
+  
   var dec = safeDecrypt(JSON.stringify(mineP));
   //console.log(dec);
   
+  var decStrs = [];
+  
   var decStr = "Error: could not decrypt.";
   if (dec.status == 'success') {
-    decStr = dec.plaintext;
+    rKey = dec.plaintext;
+    rDec = hex2s(CryptoJS.AES.decrypt(aesParse(rMessage), rKey).toString());
+    decStrs.push(rDec);
   }
   
   dec = safeDecrypt(JSON.stringify(theirsP));
   console.log(dec);
   
-  decStr2 = "Error: could not decrypt.";
+  rKey = "Error: could not decrypt.";
   if (dec.status == 'success') {
-    decStr2 = dec.plaintext;
+    rKey = dec.plaintext;
+    rDec = hex2s(CryptoJS.AES.decrypt(aesParse(rMessage), rKey).toString());
+    decStrs.push(rDec);
   }
-  decStr += '<br>-------------<br>' + decStr2;
+  
+  if (decStrs[0].trim() == '') {
+    decStr = decStrs[1];
+  } else if (decStrs[1].trim() == '') {
+    decStr = decStrs[0];
+  } else {
+    decStr = decStrs[0] + '<br>-------------<br>' + decStrs[1];
+  }
+  
   
   return decStr.replace(/\n/g, '\\n');
 }
@@ -147,19 +175,23 @@ function inject() {
     //console.log(messages);
     
     for (var i = 0; i < messages.length; i++){
-      var rm = messages[i];
-      if (rm.substr(0, 3) == '<p>') {
-        rm = rm.substr(3);
-      }
-      if (rm.substr(-4, 4) == '</p>') {
-        rm = rm.substr(0, rm.length - 4);
-      }
-      
-      rm = rm.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
-      
-      if (checkEncrypted(rm)){
-        messages[i] = '<p>' + decryptMessage(rm).replace(/\\n/g, '</p><p>') + '</p>';
-        console.log(messages[i]);
+      try {
+        var rm = messages[i];
+        if (rm.substr(0, 3) == '<p>') {
+          rm = rm.substr(3);
+        }
+        if (rm.substr(-4, 4) == '</p>') {
+          rm = rm.substr(0, rm.length - 4);
+        }
+        
+        rm = rm.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+        
+        if (checkEncrypted(rm)){
+          messages[i] = '<p>' + decryptMessage(rm).replace(/\\n/g, '</p><p>') + '</p>';
+          console.log(messages[i]);
+        }
+      } catch (e){
+        
       }
     }
     

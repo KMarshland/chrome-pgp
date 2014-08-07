@@ -236,4 +236,15 @@ function arrToHex(arr)
 function hexToArr(hex)
 {
   return s2b(hex2s(hex));
-} 
+}
+
+function randomString(length){
+    length = length || 120;
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>,.?/;:";
+
+    for( var i=0; i < length; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
