@@ -10,14 +10,14 @@ function saveKeys(keys, callback){
     chrome.storage.sync.set({'keys': keys}, callback);
 }
 function afterKeysReceived(keys){
-
-    console.log(keys);
-
+    
     function populateKeyFields(){
         $('.publicKey').val(keys.public);
     }
 
     $('.unlock').find('form').on('submit', function(e){
+        e.preventDefault();
+
         //check the password
         checkPassword({
             keys: keys,
@@ -47,8 +47,8 @@ function afterKeysReceived(keys){
                 $('.incorrectPassword').slideDown();
             }
         });
+        alert('Bass');
 
-        e.preventDefault();
         return false;
     });
 

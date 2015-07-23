@@ -1,4 +1,4 @@
-$( document ).ready(function(){
+//$( document ).ready(function(){
     ENCRYPTION_UTILS = (function(){
         function s2b(a){var f=1,b=[0],e=0,g=0,i=256;var d=a.length*8;for(var h=0;h<d;h++){if((i<<=1)>255){i=1;c=a.charCodeAt(g++)}if(f>bm){f=1;b[++e]=0}if(c&i){b[e]|=f}f<<=1}return b}
         function b2s(j){var e=1,i=0,a=[0],d=1,h=0;var k=j.length*bs;var f,g="";for(f=0;f<k;f++){if(j[i]&e){a[h]|=d}if((d<<=1)>255){d=1;a[++h]=0}if((e<<=1)>bm){e=1;i++}}while(h>=0&&a[h]==0){h--}for(f=0;f<=h;f++){g+=String.fromCharCode(a[f])}return g}
@@ -201,4 +201,4 @@ $( document ).ready(function(){
             decrypt: decrypt
         };
     })();
-});
+//});
