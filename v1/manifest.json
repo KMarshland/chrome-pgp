@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
 
-  "name": "PGP",
-  "description": "Encrypts your messages",
+  "name": "Facebook PGP",
+  "description": "Encrypts your facebook messages",
   "version": "0.65",
   "options_page": "options.html",
 
   "permissions": [
-    "storage"
+    "https://www.facebook.com/messages/*", "http://www.facebook.com/messages/*"
   ],
   
   "browser_action": {

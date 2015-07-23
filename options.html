@@ -1,67 +1,43 @@
 <html>
 <head>
-    <title>Options</title>
-	
-    <script type="text/javascript" src="./js/rsa.js"></script>	
-    <script type="text/javascript" src="./js/base64.js"></script>
-    <script type="text/javascript" src="./js/hex.js"></script>
-    <script type="text/javascript" src="./js/keygen.js"></script>
+    <title>PGP Options</title>
 
-    <script type="text/javascript" src="./js/main.js"></script>
+
+    <script src="vendor/jquery.min.js"></script>
+    <script src="vendor/openpgp.min.js"></script>
+    <script src="vendor/aes.js"></script>
+    <script src="vendor/base64.js"></script>
+    <script src="js/encryption.js"></script>
+
+    <script src="js/options.js"></script>
+
+    <style>
+        .hid{
+            display: none;
+        }
+
+    </style>
 </head>
 
 <body>
 
 <h1>Options</h1>
 
-<h2>You</h2>
-<div>
-    Your <b>public</b> key: <i><span id="public-key">
-        
-    </span></i>
-</div>
-<button id="generate" onclick="">Generate new key</button>
-<div id = "generateDiv" style="display: none;">
-    Are you sure? 
-    <button id="generateNo" onclick="hideGenerateDiv();">No! That's too dangerous. </button>
-    <button id="generateYes" onclick="">Yes, I understand the risks</button>
-</div>
-<br>
-<button id="exportKey" onclick="">Export private key</button>
-<button id="importKey" onclick="">Import private key</button>
-<div id="private-key" style="word-wrap: break-word;">
-    
+<div class="unlock">
+    <form>
+        Passphrase: <input type="password" name="passphrase">
+    </form>
+    <div class="incorrectPassword hid">
+        Incorrect
+    </div>
 </div>
 
-<h2>Other people</h2>
-<div style="">
-    Add someone else's public key
-    <input type="text" id="newname">
-    <input type="text" id="newpublickey">
+<div class="unlocked hid">
+    Your public key:
+    <br>
+    <textarea disabled class="publicKey"></textarea>
 </div>
-
-Known keys:
-<table style="border: 1px solid black">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Public key</th>
-        </tr>
-    </thead>
-    
-    <tbody id="otherKeysBody">
-        
-    </tbody>
-</table>
-
-<br>
-    
-<div id="status"></div>
-
-<button id="save">Save</button>
 
 </body>
-
-<script src="options.js"></script>
 
 </html>
