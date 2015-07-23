@@ -148,7 +148,43 @@ $( document ).ready(function(){
         }
 
         function decrypt(opts, callback){
+            if (!opts.message){
+                return callback("No message provided");
+            }
+            if (!opts.key){
+                return callback("No key");
+            }
+            if (!opts.passphrase){
+                return callback("No passphrase");
+            }
 
+            if (!opts.message.key){
+                return callback("No message.key provided");
+            }
+            if (!opts.message.message){
+                return callback("No message.message provided");
+            }
+
+            decryptWithKey({
+                key: opts.key,
+                passphrase: opts.passphrase,
+                message: opts.message.key
+            }, function(err, key){
+                if (err){
+                    return callback(err);
+                }
+
+                symmetricDecrypt({
+                    key: key,
+                    message: opts.message.message
+                }, function(err, message){
+                    if (err){
+                        return callback(err);
+                    }
+
+                    callback(null, message);
+                });
+            });
         }
 
         return {
@@ -165,65 +201,4 @@ $( document ).ready(function(){
             decrypt: decrypt
         };
     })();
-
-    //debugging
-    (function(debugging){
-        if (!debugging){
-            return;
-        }
-
-        function puts(err, result){
-            if (err){
-                console.log(err);
-            } else {
-                console.log(result);
-            }
-        }
-        window.puts = puts;
-        for (var i in ENCRYPTION_UTILS){
-            window[i] = ENCRYPTION_UTILS[i];
-        }
-
-        generatePGPKeypair({userId: 'me', passphrase: 'pass'}, function(err, res){
-            KEYS = res;
-            encryptWithKey({
-                key: KEYS.public,
-                message: 'Hi there'
-            }, function(err, res){
-                ENCRYPTED = res;
-            });
-        });
-
-        window.benchmark = function(opts, callback){
-            var start = new Date().valueOf();
-            var whenEnded = function(){
-                var totalTime = new Date().valueOf() - start;
-                callback({
-                    totalTime: (totalTime/1000).toFixed(1) + 's',
-                    averageTime: (totalTime/opts.trials).toFixed(3) + 'ms'
-                })
-            };
-
-            if (opts.async){
-                var trialNum = 0;
-                var next = function() {
-                    trialNum ++;
-                    if (trialNum > opts.trials){
-                        return whenEnded();
-                    }
-                    opts.f(function () {
-                        next();
-                    });
-                };
-                next();
-            } else {
-                for (var i = 0; i < opts.trials; i++){
-                    opts.f();
-                }
-                whenEnded();
-            }
-
-
-        }
-    })(true);
 });
