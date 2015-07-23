@@ -119,8 +119,34 @@ $( document ).ready(function(){
                         callback(err, {
                             success: res === message,
                             expected: message,
-                            received: message
+                            received: res
                         });
+                    });
+                });
+            });
+        },
+        fullWithOpts: function(opts, callback){
+            ENCRYPTION_UTILS.encrypt({
+                key: opts.keys.enc,
+                message: opts.message
+            }, function(err, res){
+                if (err){
+                    return callback(err);
+                }
+
+                ENCRYPTION_UTILS.decrypt({
+                    message: res,
+                    key: opts.keys.dec,
+                    passphrase: opts.passphrase
+                }, function(err, res){
+                    if (err){
+                        return callback(err);
+                    }
+
+                    callback(err, {
+                        success: res === opts.message,
+                        expected: opts.message,
+                        received: res
                     });
                 });
             });

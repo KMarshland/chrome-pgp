@@ -47,7 +47,6 @@ function afterKeysReceived(keys){
                 $('.incorrectPassword').slideDown();
             }
         });
-        alert('Bass');
 
         return false;
     });
