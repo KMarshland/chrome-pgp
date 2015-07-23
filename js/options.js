@@ -10,7 +10,7 @@ function saveKeys(keys, callback){
     chrome.storage.sync.set({'keys': keys}, callback);
 }
 function afterKeysReceived(keys){
-    
+
     function populateKeyFields(){
         $('.publicKey').val(keys.public);
     }
