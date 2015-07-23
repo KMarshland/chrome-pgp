@@ -1,6 +1,6 @@
-==PGP
+#PGP
 
-=Usage
+##Usage
 
 =Method
 -Key generation
